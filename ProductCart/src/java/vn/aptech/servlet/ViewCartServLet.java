@@ -12,13 +12,18 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import vn.aptech.dto.Cart;
+import vn.aptech.dto.CartItem;
+import vn.aptech.dto.Product;
+import static vn.aptech.servlet.ProductServlet.products;
+
 
 /**
  *
  * @author Administrator
  */
-@WebServlet(name = "ReadSession", urlPatterns = {"/ReadSession"})
-public class ReadSession extends HttpServlet {
+@WebServlet(name = "ViewCartServLet", urlPatterns = {"/ViewCart"})
+public class ViewCartServLet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,13 +42,37 @@ public class ReadSession extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ReadSession</title>");            
+            out.println("<title>Servlet ViewCartServLet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ReadSession at " + request.getContextPath() + "</h1>");
+            out.println("<h1>ViewCart</h1>");
+            
+            out.println("<table>");
+            out.println("<tr>");
+              out.println("<th>Product Id</th>");
+              out.println("<th>Name</th>");
+              out.println("<th>Price</th>");
+              out.println("<th>Quantity</th>");
+            out.println("</tr>");
+           
             HttpSession session = request.getSession();
-            String user = (String) session.getAttribute("user");
-            out.println("<h3>Username: "+user+"</h3>");
+            if(session.getAttribute("cart")!=null){
+                Cart cart = (Cart) session.getAttribute("cart");
+                for (CartItem item  : cart.getCarts()) {
+                    out.println("<tr>");
+                    out.println("<td>"+ item.getProduct().getId()+ "</td>");
+                    out.println("<td>"+ item.getProduct().getName()+ "</td>");
+                    out.println("<td>"+ item.getProduct().getPrice()+ "</td>");
+                    out.println("<td>"+ item.getQuantity()+ "</td>");
+                    out.println("</tr>");
+                }
+            }else{
+                // truong hop chua co cart 
+                out.println("<tr>");
+                out.println("<td colspan='4'>Cart Empty</td>");
+                out.println("</tr>");
+            }
+            out.println("</table>");
             out.println("</body>");
             out.println("</html>");
         }

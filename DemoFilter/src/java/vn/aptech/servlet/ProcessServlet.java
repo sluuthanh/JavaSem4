@@ -9,16 +9,16 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+
 
 /**
  *
  * @author Administrator
  */
-@WebServlet(name = "ReadSession", urlPatterns = {"/ReadSession"})
-public class ReadSession extends HttpServlet {
+@WebServlet(name = "ProcessServlet", urlPatterns = {"/Process"})
+public class ProcessServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,13 +37,13 @@ public class ReadSession extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ReadSession</title>");            
+            out.println("<title>Servlet ProcessServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ReadSession at " + request.getContextPath() + "</h1>");
-            HttpSession session = request.getSession();
-            String user = (String) session.getAttribute("user");
-            out.println("<h3>Username: "+user+"</h3>");
+            out.println("<h1>Servlet ProcessServlet at " + request.getContextPath() + "</h1>");
+            String name = (String)request.getAttribute("name");
+            out.println("<h3> Name = "+ name +"</h3>");
+            
             out.println("</body>");
             out.println("</html>");
         }

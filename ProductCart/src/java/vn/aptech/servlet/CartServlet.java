@@ -12,40 +12,37 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import vn.aptech.dto.Cart;
+
 
 /**
  *
  * @author Administrator
  */
-@WebServlet(name = "ReadSession", urlPatterns = {"/ReadSession"})
-public class ReadSession extends HttpServlet {
+@WebServlet(name = "CartServlet", urlPatterns = {"/Cart"})
+public class CartServlet extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ReadSession</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ReadSession at " + request.getContextPath() + "</h1>");
+            String pid = request.getParameter("pid");
+            Cart cart = null;
             HttpSession session = request.getSession();
-            String user = (String) session.getAttribute("user");
-            out.println("<h3>Username: "+user+"</h3>");
-            out.println("</body>");
-            out.println("</html>");
+            if(session.getAttribute("cart")==null){
+            //chua co gio hang tao moi
+            cart = new Cart();
+            }else {
+            // doc cart tu session
+            cart = (Cart) session.getAttribute("cart");
+            }
+            //add item to cart
+            cart.addCart(Integer.parseInt(pid),1);
+            //luu cart vao session
+            session.setAttribute("cart", cart);
+            //chuyen ve ProductServlet
+            response.sendRedirect("Product");
         }
     }
 

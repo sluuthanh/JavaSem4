@@ -23,9 +23,9 @@ import vn.aptech.dto.Product;
 @WebServlet(name = "ProductServlet", urlPatterns = {"/Product"})
 public class ProductServlet extends HttpServlet {
     
-    public static List<Product> products = new ArrayList<>();
+    public static final List<Product> products = new ArrayList<>();
     
-    static {
+    public ProductServlet() {
         Product p1 = new Product (1,"Product 1",10);
         products.add(p1);
          Product p2 = new Product (2,"Product 2",11);
@@ -67,7 +67,7 @@ public class ProductServlet extends HttpServlet {
                 out.println("<td>"+p.getId()+"</td>");
                 out.println("<td>"+p.getName()+"</td>");
                 out.println("<td>"+p.getPrice()+"</td>");
-                out.println("<td><a href='#'>Add Card</a></td>");
+                out.println("<td><a href='Cart?pid="+ p.getId() + "'>Add Card</a></td>");
                 out.println("</tr>");
             }
             out.println("</table>");
